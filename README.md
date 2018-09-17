@@ -15,5 +15,6 @@ arke is a dumb python monitoring client i am currently working on to monitor htt
 ## TODO
 actually implement the following:
 - logging https://docs.python.org/2/library/logging.html - use this to dump data instead of doing my own stupid write function.
+    - https://fangpenlin.com/posts/2012/08/26/good-logging-practice-in-python/ this is also probably worth reading
 - figure out how to remotely monitor processes from the monitoring host
 - figure out how to send data over to my mojo slack bot
