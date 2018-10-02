@@ -1,12 +1,9 @@
 import requests, arkevars, json, logging
 
-FORMAT = "%(asctime)-15s %(clientip)s %(user)-8s %(message)s"
-logging.basicConfig(format=FORMAT)
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(format='%(asctime)s %(message)s', datefmt='%Y/%m/%d %I:%M:%S %p',level=logging.INFO,filename='example.log')
 logger = logging.getLogger("arke")
 
-def gather_JsonData(monitoringtargets):
-    responseTable = {}
+def monitor_AllTargets(monitoringtargets):
     for target in monitoringtargets:
         try:
             statuscode = requests.get(target).status_code
@@ -14,8 +11,6 @@ def gather_JsonData(monitoringtargets):
             # prints the int of the status code. Find more at httpstatusrappers.com :)
 
         except requests.ConnectionError:
-            logger.info(f"target: {target} ERROR: Failure to connect.")
-    
-    return responseTable
+            logger.warn(f"target: {target} ERROR: Failure to connect.")
 
-gather_JsonData(arkevars.httpTargets)
+monitor_AllTargets(arkevars.httpTargets)
