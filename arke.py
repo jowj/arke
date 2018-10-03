@@ -1,4 +1,4 @@
-import requests, arkevars, json, logging
+import requests, arkevars, json, logging, datetime
 
 logging.basicConfig(format='%(asctime)s %(message)s', datefmt='%Y/%m/%d %I:%M:%S %p',level=logging.INFO,filename='example.log')
 logger = logging.getLogger("arke")
@@ -18,4 +18,12 @@ def monitor_AllTargets(monitoringtargets):
     
     return responseTable
 
-monitor_AllTargets(arkevars.httpTargets)
+target_Codes = monitor_AllTargets(arkevars.httpTargets)
+currentdate = datetime.datetime.now().isoformat()
+
+# export shit as a dict
+with open(f'{currentdate}.py','w') as file:
+    file.write("results = { \n")
+    for k in sorted (target_Codes.keys()):
+        file.write("'%s':'%s', \n" % (k, target_Codes[k]))
+    file.write("}\n")
