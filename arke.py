@@ -10,7 +10,6 @@ def monitor_AllTargets(monitoringtargets):
             statuscode = requests.get(target).status_code
             logger.info(f"target: {target} statuscode: {statuscode}")
             responseTable[target] = statuscode
-            # prints the int of the status code. Find more at httpstatusrappers.com :)
 
         except requests.ConnectionError:
             logger.warn(f"target: {target} ERROR: Failure to connect.")
@@ -18,12 +17,9 @@ def monitor_AllTargets(monitoringtargets):
     
     return responseTable
 
-target_Codes = monitor_AllTargets(arkevars.httpTargets)
-currentdate = datetime.datetime.now().isoformat()
+datastore = monitor_AllTargets(arkevars.httpTargets)
+json_string = json.dumps(datastore)
 
-# export shit as a dict
-with open(f'{currentdate}.py','w') as file:
-    file.write("results = { \n")
-    for k in sorted (target_Codes.keys()):
-        file.write("'%s':'%s', \n" % (k, target_Codes[k]))
-    file.write("}\n")
+file = open("results.json", "a+")
+file.write(json_string)
+file.write("\n")
