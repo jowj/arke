@@ -1,6 +1,6 @@
 import requests, arkevars, json, logging, datetime, os, time
 
-logging.basicConfig(format='%(asctime)s %(message)s', datefmt='%Y/%m/%d %I:%M:%S %p',level=logging.INFO,filename='example.log')
+logging.basicConfig(format='%(asctime)s %(message)s', datefmt='%Y/%m/%d %I:%M:%S %p',level=logging.INFO,filename='arke.log')
 logger = logging.getLogger("arke")
 
 def monitor_AllTargets(monitoringtargets):
@@ -19,6 +19,7 @@ def monitor_AllTargets(monitoringtargets):
 
 is_on = True
 while is_on:
+    time.sleep(60)
     datastore = monitor_AllTargets(arkevars.httpTargets)
     json_string = json.dumps(datastore)
 
@@ -39,5 +40,4 @@ while is_on:
             errorFile.write(errorText)
             errorFile.close()
 
-    time.sleep(60)
     os.remove("/shared/results.json")
