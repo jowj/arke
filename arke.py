@@ -19,7 +19,6 @@ def monitor_AllTargets(monitoringtargets):
 
 is_on = True
 while is_on:
-    time.sleep(60)
     datastore = monitor_AllTargets(arkevars.httpTargets)
     json_string = json.dumps(datastore)
 
@@ -39,5 +38,5 @@ while is_on:
             errorText = key + " is down." + "\n"
             errorFile.write(errorText)
             errorFile.close()
-
+    time.sleep(60)
     os.remove("/shared/results.json")
