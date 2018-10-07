@@ -34,7 +34,7 @@ while is_on:
 
     for key,value in results[-1].items():
         if value != 200:
-            errorFile = open("alerts.log", "w")
+            errorFile = open("/shared/alerts.log", "w")
             errorText = key + " is down." + "\n"
             errorFile.write(errorText)
             errorFile.close()
