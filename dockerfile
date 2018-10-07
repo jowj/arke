@@ -5,10 +5,11 @@ RUN apk update
 
 RUN apk add \
     python3 \ 
-    python-dev    
+    python-dev
 
-RUN python3 -m pip install --upgrade pip \
-    python3 -m pip install requests
+RUN python3 -m ensurepip \ 
+    && python3 -m pip install --upgrade pip \
+    && python3 -m pip install requests
 
 COPY ./ ./
 
