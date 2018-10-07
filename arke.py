@@ -1,4 +1,4 @@
-import requests, arkevars, json, logging, datetime, os
+import requests, arkevars, json, logging, datetime, os, time
 
 logging.basicConfig(format='%(asctime)s %(message)s', datefmt='%Y/%m/%d %I:%M:%S %p',level=logging.INFO,filename='example.log')
 logger = logging.getLogger("arke")
@@ -38,4 +38,5 @@ while is_on:
             errorText = key + " is down." + "\n"
             errorFile.write(errorText)
             errorFile.close()
-    
+
+    time.sleep(60)    
