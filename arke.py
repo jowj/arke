@@ -22,21 +22,22 @@ while is_on:
     datastore = monitor_AllTargets(arkevars.httpTargets)
     json_string = json.dumps(datastore)
 
-    file = open("results.json", "a+")
+    file = open("/shared/results.json", "a+")
     file.write(json_string)
     file.write("\n")
     file.close()
 
     results = []
-    with open("results.json", "r") as json_File:
+    with open("/shared/results.json", "r") as json_File:
         for line in json_File:
             results.append(json.loads(line))
 
     for key,value in results[-1].items():
         if value != 200:
-            errorFile = open("errors.log", "w")
+            errorFile = open("alerts.log", "w")
             errorText = key + " is down." + "\n"
             errorFile.write(errorText)
             errorFile.close()
 
-    time.sleep(60)    
+    time.sleep(60)
+    os.remove("/shared/results.json")
