@@ -17,7 +17,8 @@ def monitor_AllTargets(monitoringtargets):
     
     return responseTable
 
-while True:
+is_on = True
+while is_on:
     datastore = monitor_AllTargets(arkevars.httpTargets)
     json_string = json.dumps(datastore)
 
