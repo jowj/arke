@@ -1,4 +1,4 @@
-import requests, arkevars, json, logging, datetime
+import requests, arkevars, json, logging, datetime, os
 
 logging.basicConfig(format='%(asctime)s %(message)s', datefmt='%Y/%m/%d %I:%M:%S %p',level=logging.INFO,filename='example.log')
 logger = logging.getLogger("arke")
@@ -17,9 +17,24 @@ def monitor_AllTargets(monitoringtargets):
     
     return responseTable
 
-datastore = monitor_AllTargets(arkevars.httpTargets)
-json_string = json.dumps(datastore)
+while True:
+    datastore = monitor_AllTargets(arkevars.httpTargets)
+    json_string = json.dumps(datastore)
 
-file = open("results.json", "a+")
-file.write(json_string)
-file.write("\n")
+    file = open("results.json", "a+")
+    file.write(json_string)
+    file.write("\n")
+    file.close()
+
+    results = []
+    with open("results.json", "r") as json_File:
+        for line in json_File:
+            results.append(json.loads(line))
+
+    for key,value in results[-1].items():
+        if value != 200:
+            errorFile = open("errors.log", "w")
+            errorText = key + " is down." + "\n"
+            errorFile.write(errorText)
+            errorFile.close()
+    
