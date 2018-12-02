@@ -22,6 +22,18 @@ while is_on:
     datastore = monitor_AllTargets(arkevars.httpTargets)
     json_string = json.dumps(datastore)
 
+    # track state
+    file = open("/shared/results.json", "r")
+    oldData = file.read()
+    if oldData = json_string:
+        changed = False
+    else:
+        changed = True
+
+    # old file removal must happen after state tracking:
+    os.remove("/shared/results.json")
+        
+    # write new results to file
     file = open("/shared/results.json", "a+")
     file.write(json_string)
     file.write("\n")
@@ -34,9 +46,10 @@ while is_on:
 
     for key,value in results[-1].items():
         if value != 200:
-            errorFile = open("/shared/alerts.log", "w")
-            errorText = key + " is down." + "\n"
-            errorFile.write(errorText)
-            errorFile.close()
+            if state = True:
+                errorFile = open("/shared/alerts.log", "w")
+                errorText = key + " is down." + "\n"
+                errorFile.write(errorText)
+                errorFile.close()
     time.sleep(60)
-    os.remove("/shared/results.json")
+
