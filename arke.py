@@ -25,7 +25,7 @@ while is_on:
     # track state
     file = open("/shared/results.json", "r")
     oldData = file.read()
-    if oldData = json_string:
+    if oldData == json_string:
         changed = False
     else:
         changed = True
@@ -46,7 +46,7 @@ while is_on:
 
     for key,value in results[-1].items():
         if value != 200:
-            if state = True:
+            if state == True:
                 errorFile = open("/shared/alerts.log", "w")
                 errorText = key + " is down." + "\n"
                 errorFile.write(errorText)
