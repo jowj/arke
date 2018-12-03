@@ -24,7 +24,9 @@ while is_on:
 
     # track state
     file = open("/shared/results.json", "r")
-    oldData = file.read()
+    stateFile = open("/shared/state.log", "r")
+
+    oldData = stateFile.read()
     if oldData != json_string:
         stateChanged = True
     else:
@@ -32,7 +34,8 @@ while is_on:
 
     # old file removal must happen after state tracking:
     os.remove("/shared/results.json")
-        
+    os.remove("/shared/state.log")    
+
     # write new results to file
     file = open("/shared/results.json", "a+")
     file.write(json_string)
@@ -45,6 +48,12 @@ while is_on:
             results.append(json.loads(line))
 
     for key,value in results[-1].items():
+        # track state
+        errorFile = open("/shared/state.log", "w")
+        errorText = key + " returned with status " + str(value)  + "\n"
+        errorFile.write(errorText)
+        errorFile.close()        
+
         if stateChanged == True:
             errorFile = open("/shared/alerts.log", "w")
             errorText = key + " returned with status " + str(value)  + "\n"
