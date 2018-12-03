@@ -47,7 +47,7 @@ while is_on:
     for key,value in results[-1].items():
         if stateChanged == True:
             errorFile = open("/shared/alerts.log", "w")
-            errorText = key + "returned with" + str(value)  + "\n"
+            errorText = key + " returned with status " + str(value)  + "\n"
             errorFile.write(errorText)
             errorFile.close()
     time.sleep(60)
