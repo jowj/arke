@@ -52,7 +52,7 @@ while is_on:
         errorFile = open("/shared/state.log", "w")
         errorText = key + " returned with status " + str(value)  + "\n"
         errorFile.write(errorText)
-        errorFile.close()        
+        errorFile.close()
 
         if stateChanged == True:
             errorFile = open("/shared/alerts.log", "w")
