@@ -44,10 +44,10 @@ while is_on:
         for line in json_File:
             results.append(json.loads(line))
 
-    for key,value in results[-1].items():
+    for key,value in results.items():
         if stateChanged == True:
             errorFile = open("/shared/alerts.log", "w")
-            errorText = key + str(value)  + "\n"
+            errorText = key + "returned with" + str(value)  + "\n"
             errorFile.write(errorText)
             errorFile.close()
     time.sleep(60)
