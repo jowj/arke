@@ -25,10 +25,10 @@ while is_on:
     # track state
     file = open("/shared/results.json", "r")
     oldData = file.read()
-    if oldData == json_string:
-        stateChanged = False
-    else:
+    if oldData != json_string:
         stateChanged = True
+    else:
+        stateChanged = False
 
     # old file removal must happen after state tracking:
     os.remove("/shared/results.json")
