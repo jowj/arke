@@ -46,18 +46,19 @@ while is_on:
     with open("/shared/results.json", "r") as json_File:
         for line in json_File:
             results.append(json.loads(line))
-
-    for key,value in results[-1].items():
-        # track state
-        errorFile = open("/shared/state.log", "w")
-        errorText = key + " returned with status " + str(value)  + "\n"
-        errorFile.write(errorText)
-        errorFile.close()
-
-        if stateChanged == True:
-            errorFile = open("/shared/alerts.log", "w")
+    for item in results:
+        for key,value in item.items():
+            # track state
+            errorFile = open("/shared/state.log", "a+")
             errorText = key + " returned with status " + str(value)  + "\n"
             errorFile.write(errorText)
-            errorFile.close()
+
+
+            if stateChanged == True:
+                errorFile = open("/shared/alerts.log", "a+")
+                errorText = key + " returned with status " + str(value)  + "\n"
+                errorFile.write(errorText)
+
+    errorFile.close()
     time.sleep(60)
 
