@@ -22,6 +22,12 @@ while is_on:
     datastore = monitor_AllTargets(arkevars.httpTargets)
     json_string = json.dumps(datastore)
 
+    # write new results to file
+    file = open("/shared/results.json", "a+")
+    file.write(json_string)
+    file.write("\n")
+    file.close()
+    
     # track state
     file = open("/shared/results.json", "r")
     stateFile = open("/shared/state.log", "r")
@@ -33,14 +39,8 @@ while is_on:
         stateChanged = False
 
     # old file removal must happen after state tracking:
-    os.remove("/shared/results.json")
-    os.remove("/shared/state.log")    
 
-    # write new results to file
-    file = open("/shared/results.json", "a+")
-    file.write(json_string)
-    file.write("\n")
-    file.close()
+    os.remove("/shared/state.log")
 
     results = []
     with open("/shared/results.json", "r") as json_File:
@@ -48,17 +48,17 @@ while is_on:
             results.append(json.loads(line))
     for item in results:
         for key,value in item.items():
-            # track state
-            errorFile = open("/shared/state.log", "a+")
-            errorText = key + " returned with status " + str(value)  + "\n"
-            errorFile.write(errorText)
-
-
             if stateChanged == True:
                 errorFile = open("/shared/alerts.log", "a+")
                 errorText = key + " returned with status " + str(value)  + "\n"
                 errorFile.write(errorText)
 
+    # track state
+    errorFile = open("/shared/state.log", "a+")
+    errorText = json_string
+    errorFile.write(errorText)
+
     errorFile.close()
+    os.remove("/shared/results.json")
     time.sleep(60)
 
